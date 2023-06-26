@@ -12,15 +12,15 @@ export function Ingredients({data}){
 const styles = StyleSheet.create({
     container:{
         backgroundColor:"#FFF",
-        marginBottom:14,
-        flexDirection:"row",
+        marginBottom: 14,
+        flexDirection: "row",
         justifyContent: "space-between",
-        padding:12,
-        borderRadius:4,
+        padding: 12,
+        borderRadius: 4,
     },
     name:{
         fontWeight: 500,
-        fontSize:16,
+        fontSize: 16,
     }
 })
 

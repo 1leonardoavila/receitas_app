@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react'
-import{ View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { Logo } from'../../components/logo'
 
@@ -48,7 +48,7 @@ export function Home (){
           <FlatList
            data={foods}
            keyExtractor={(item) => String(item.id)}
-           renderItem={({item}) => <FoodList data={item}/>}
+           renderItem={({item}) => <FoodList data={item} />}
            showsVerticalScrollIndicator={false}
            />
         </SafeAreaView>

@@ -1,5 +1,5 @@
-import { useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'
+import { useLayoutEffect,useState } from 'react';
+import { View, Text, StyleSheet, Pressable, ScrollView, Image, Modal } from 'react-native'
 import { useRoute, useNavigation } from '@react-navigation/native'
 
 import { Entypo, AntDesign, Feather } from '@expo/vector-icons'
@@ -7,14 +7,18 @@ import { Entypo, AntDesign, Feather } from '@expo/vector-icons'
 import { Ingredients } from '../../components/ingredients'
 import { Instructions } from '../../components/instructions'
 
+import {VideoView} from'../../components/video'
+
 export function Detail(){
     const route = useRoute();
     const navigation = useNavigation();
 
+    const [showVideo, setShowVideo] = useState(true);
+
     useLayoutEffect(() => {
 
     navigation.setOptions({
-        title:route.params?.data ? route.params?.data.name : "Detalhes da receita", headerRight: () => (
+        title: route.params?.data ? route.params?.data.name : "Detalhes da receita", headerRight: () => (
         <Pressable onPress={() => console.log("testandoo")}>
             <Entypo
             name="heart"
@@ -27,9 +31,13 @@ export function Detail(){
 
     },[navigation, route.params?.data])
 
+    function handleOpenvideo(){
+        setShowVideo(true);
+    }
+
     return(
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-           <Pressable>
+        <ScrollView contentContainerStyle={{ paddingBottom: 14 }} style={styles.container} showsVerticalScrollIndicator={false}>
+           <Pressable onPress={handleOpenvideo}>
             <View style={styles.playIcon} >
                 <AntDesign name="playcircle" size={48} color="#FAFAFA" />
             </View>
@@ -40,19 +48,38 @@ export function Detail(){
            </Pressable>
 
            <View style={styles.headerDetails} >
-            <view>
+            <View>
                 <Text style={styles.title} >{route.params?.data.name}</Text>
                 <Text style={styles.ingredientsText}>ingredientes ({route.params?.data.total_ingredients}) </Text>
-            </view>
+            </View>
 
             <Pressable>
                 <Feather name="share-2" size={24} color="#121212" />
             </Pressable>
            </View>
 
-           {route.params?.data.Ingredients.map(() => (
+           {route.params?.data.ingredients.map((item) => (
             <Ingredients key={item.id} data={item}/>
            ))}
+
+           <View style={styles.instructionsArea}>
+            <Text style={styles.instructionsText}> Modo de preparo</Text>
+            <Feather
+            name="arrow-down"
+            size={24} 
+            color="#FFF" 
+            />
+           </View>
+
+           {route.params?.data.instructions.map( (item, index) => (
+            <Instructions key={item.id} data={item} index={index}/>
+           ))}
+
+           <Modal visible={showVideo} animationType="slide">
+            <VideoView
+            handleClose={() => setShowVideo(false) }
+            videoUrl={route.params?.data.video} />
+           </Modal>
         </ScrollView>
     )
 }
@@ -74,7 +101,7 @@ const styles = StyleSheet.create({
         zIndex: 9,
         top: 0, left: 0, right:0, botton:0,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     title: {
         fontSize:18,
@@ -91,8 +118,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom:14,
+        marginBottom:14
         
+    },
+    instructionsArea:{
+        backgroundColor:"#4cbe6c",
+        flexDirection: 'row',
+        padding: 8,
+        borderRadius: 4,
+        marginBottom: 14,
+    },
+    instructionsText:{
+        fontSize: 18,
+        fontWeight: 500,
+        color: '#FFF',
+        marginRight: 8,
     }
 })
 
