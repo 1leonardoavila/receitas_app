@@ -10,6 +10,6 @@ export function Favorites (){
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'yellow',
+        backgroundColor: 'blue',
     }
 })
