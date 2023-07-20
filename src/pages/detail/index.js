@@ -41,7 +41,7 @@ export function Detail(){
             <View style={styles.playIcon} >
                 <AntDesign name="playcircle" size={48} color="#FAFAFA" />
             </View>
-            <image
+            <Image
             source={{uri: route.params?.data.cover}}
             style={styles.cover}
             />
